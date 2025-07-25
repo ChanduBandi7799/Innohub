@@ -12,6 +12,8 @@ const authRoutes = require('./routes/auth');
 const problemRoutes = require('./routes/problem');
 const chatRoutes = require('./routes/chat');
 const Chat = require('./models/Chat');
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 
@@ -69,8 +71,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
 
 // Google OAuth Strategy
 passport.use(new GoogleStrategy({
-  clientID: "712538252229-2qilu629heicalb59lhg4ml815lopf4a.apps.googleusercontent.com",
-  clientSecret: "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",
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: '/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
   let user = await User.findOne({ googleId: profile.id });
