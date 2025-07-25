@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Post Idea - InnoHub</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function toggleForm(type) {
+      document.getElementById('idea-form').classList.toggle('hidden', type !== 'idea');
+      document.getElementById('problem-section').classList.toggle('hidden', type !== 'problem');
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start pt-10">
+  <h1 class="text-3xl font-bold mb-8">What do you want to post?</h1>
+
+  <!-- Buttons -->
+  <div class="flex gap-6 mb-10">
+    <button onclick="toggleForm('problem')" class="bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-800">
+      Post Problem Statement
+    </button>
+    <button onclick="toggleForm('idea')" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">
+      Post Idea
+    </button>
+  </div>
+
+  <!-- Problem Statement Form -->
+<form id="problem-section" class="hidden w-full max-w-xl p-6 bg-white rounded-lg shadow" action="/post-problem" method="POST">
+  <div class="mb-4">
+    <label class="block mb-1 font-semibold text-gray-700">Sector</label>
+    <select name="sector" required class="w-full border p-2 rounded">
+      <option value="">Select a Sector</option>
+      <option value="Technology">Technology</option>
+      <option value="Healthcare">Healthcare</option>
+      <option value="Finance">Finance</option>
+      <option value="Education">Education</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1 font-semibold text-gray-700">Problem Title</label>
+    <input type="text" name="title" required placeholder="E.g., Lack of access to e-learning..." class="w-full border p-2 rounded" />
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1 font-semibold text-gray-700">Problem Description</label>
+    <textarea name="description" required placeholder="Describe the problem in detail..." rows="5" class="w-full border p-2 rounded"></textarea>
+  </div>
+
+  <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700">
+    Submit Problem
+  </button>
+</form>
+
+
+  <!-- Post Idea Form -->
+  <form id="idea-form" class="hidden w-full max-w-xl p-6 bg-white rounded-lg shadow" action="/post-idea" method="POST">
+    <div class="mb-4">
+      <label class="block mb-1 font-semibold text-gray-700">Sector</label>
+      <select name="sector" required class="w-full border p-2 rounded">
+        <option value="">Select a Sector</option>
+        <option value="Technology">Technology</option>
+        <option value="Healthcare">Healthcare</option>
+        <option value="Finance">Finance</option>
+        <option value="Education">Education</option>
+        <!-- Add more if needed -->
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1 font-semibold text-gray-700">Problem Statement</label>
+      <input type="text" name="problem" required placeholder="E.g., Lack of remote health monitoring..." class="w-full border p-2 rounded" />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1 font-semibold text-gray-700">Your Idea</label>
+      <textarea name="description" required placeholder="Describe your solution or innovation..." rows="5" class="w-full border p-2 rounded"></textarea>
+    </div>
+
+    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+      Submit Idea
+    </button>
+  </form>
+   <nav class="fixed bottom-0 w-full bg-white border-t shadow-inner">
+    <div class="flex justify-around text-gray-600 text-sm">
+      <a href="/home" class="flex flex-col items-center py-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0H5m4 0h10m-4-6v6m0 0h4" />
+        </svg>
+        Home
+      </a>
+      <a href="/search" class="flex flex-col items-center py-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        Search
+      </a>
+      <a href="/post" class="flex flex-col items-center py-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M12 4v16m8-8H4" />
+        </svg>
+        Post
+      </a>
+      <a href="/profile" class="flex flex-col items-center py-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M5.121 17.804A7 7 0 0112 15a7 7 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Profile
+      </a>
+    </div>
+  </nav>
+</body>
+</html>

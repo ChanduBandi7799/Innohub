@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InnoHub | Connect Ideas with Investors</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-white text-gray-800 font-sans">
+
+    <!-- Navbar -->
+    <header class="shadow-md">
+      <div class="container mx-auto flex justify-between items-center p-5">
+        <h1 class="text-2xl font-bold text-blue-600">InnoHub</h1>
+        <nav class="space-x-6">
+          <a href="#features" class="hover:text-blue-600">Features</a>
+          <a href="#about" class="hover:text-blue-600">About</a>
+          <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</a>
+          <a href="/signup" class="border border-blue-600 text-blue-600 px-4 py-2 rounded hover:bg-blue-100">Sign Up</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="text-center py-20 bg-gradient-to-r from-blue-50 to-blue-100">
+      <h2 class="text-4xl font-bold mb-4">Bridge the Gap Between Ideas & Investment</h2>
+      <p class="text-lg mb-6 text-gray-700">InnoHub is the platform where brilliant minds meet smart investors.</p>
+      <a href="/signup" class="bg-blue-600 text-white px-6 py-3 rounded text-lg hover:bg-blue-700">Get Started</a>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+      <div class="container mx-auto text-center">
+        <h3 class="text-3xl font-semibold mb-10">Why InnoHub?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 px-4">
+          <div>
+            <h4 class="text-xl font-semibold mb-2">Post Ideas Securely</h4>
+            <p class="text-gray-600">Contributors can submit their ideas in a protected space only visible to them and investors.</p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-2">Discover Investment Opportunities</h4>
+            <p class="text-gray-600">Investors can browse and filter through a wide range of innovative ideas by sector.</p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-2">Simple & Intuitive</h4>
+            <p class="text-gray-600">No clutter. No distractions. Just innovation and funding brought together.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+      <div class="container mx-auto text-center px-4">
+        <h3 class="text-3xl font-semibold mb-4">About InnoHub</h3>
+        <p class="text-gray-700 max-w-2xl mx-auto">InnoHub is a platform crafted for contributors to securely post their breakthrough ideas and connect with investors who are eager to fund the next big thing. Whether you're a dreamer or a backer, InnoHub is your go-to destination.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-6">
+      <div class="container mx-auto text-center">
+        <p>&copy; <%= new Date().getFullYear() %> InnoHub. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </body>
+</html>

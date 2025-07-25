@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Problem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Edit Your Problem</h2>
+    <form action="/edit-problem/<%= problem._id %>" method="POST" class="space-y-4">
+      <input 
+        type="text" 
+        name="sector" 
+        value="<%= problem.sector %>" 
+        class="w-full border px-3 py-2 rounded" 
+        required 
+      />
+      <input 
+        type="text" 
+        name="problem" 
+        value="<%= problem.problem %>" 
+        class="w-full border px-3 py-2 rounded" 
+        required 
+      />
+      <textarea 
+        name="description" 
+        rows="4" 
+        class="w-full border px-3 py-2 rounded"
+      ><%= problem.description %></textarea>
+
+      <div class="flex justify-end">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
