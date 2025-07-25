@@ -22,7 +22,7 @@ require('dotenv').config();
 const app = express();
 
 // DB connection
-mongoose.connect("mongodb+srv://chandubandi7799:chandubandi7799@innohub.uaajegr.mongodb.net/")
+mongoose.connect("mongodb+srv://chandubandi7799:WrwWtx3uapRDr3us@innohub.uaajegr.mongodb.net/?retryWrites=true&w=majority&appName=Innohub")
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
