@@ -3,201 +3,346 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InnoHub | My Chats</title>
+  <title>Chats - InnoHub</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen">
+<body class="bg-gradient-to-br from-gray-50 to-green-50 text-gray-900 min-h-screen">
 
-<!-- WhatsApp-style Header -->
-<header class="bg-green-600 text-white p-4 shadow-md sticky top-0 z-10">
-  <div class="flex items-center justify-between max-w-4xl mx-auto">
-    <div class="flex items-center space-x-3">
-      <h1 class="text-xl font-semibold">Chats</h1>
-      <div class="bg-green-700 text-xs px-2 py-1 rounded-full">
-        <%= chats ? chats.length : 0 %>
+<!-- Modern Header with Glass Effect -->
+<header class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold text-lg">💬</span>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            Innovation Chats
+          </h1>
+          <p class="text-sm text-gray-600">🚀 Connect with fellow innovators</p>
+        </div>
       </div>
-    </div>
-    <div class="flex items-center space-x-4">
-      <!-- Search Icon -->
-      <button class="hover:bg-green-700 p-2 rounded-full transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </button>
-      <!-- Menu Icon -->
-      <button class="hover:bg-green-700 p-2 rounded-full transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-        </svg>
-      </button>
+
+      <!-- Chat Stats & Search -->
+      <div class="flex items-center space-x-3">
+        <div class="bg-green-100 px-4 py-2 rounded-2xl border border-green-200">
+          <span class="text-sm font-semibold text-green-700">
+            <%= chats ? chats.length : 0 %> Active Chats
+          </span>
+        </div>
+        <button class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <span class="font-medium">Search</span>
+        </button>
+      </div>
     </div>
   </div>
 </header>
 
 <!-- Main Content -->
-<main class="max-w-4xl mx-auto bg-white min-h-[calc(100vh-140px)] pb-20">
+<main class="max-w-4xl mx-auto px-6 py-8 pb-24">
   <% if (chats && chats.length > 0) { %>
+    <!-- Chat Statistics -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-gray-100 mb-8">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="text-center p-4 bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl border border-green-100">
+          <div class="text-2xl font-bold text-green-600"><%= chats.length %></div>
+          <div class="text-sm text-gray-600 font-medium">Active Chats</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100">
+          <div class="text-2xl font-bold text-blue-600">
+            <%= chats.filter(chat => chat.messages && chat.messages.length > 0).length %>
+          </div>
+          <div class="text-sm text-gray-600 font-medium">With Messages</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100">
+          <div class="text-2xl font-bold text-purple-600">
+            <%= chats.reduce((total, chat) => total + (chat.messages ? chat.messages.length : 0), 0) %>
+          </div>
+          <div class="text-sm text-gray-600 font-medium">Total Messages</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Chat List -->
-    <div class="divide-y divide-gray-100">
-      <% chats.forEach((chat, index) => { %>
-        <% const lastMessage = chat.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null; %>
-        <% const isCurrentUser = lastMessage && lastMessage.sender && user && lastMessage.sender._id.toString() === user._id.toString(); %>
-        
-        <div class="p-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer active:bg-gray-100">
-          <% if (chat.idea && chat.idea._id) { %>
-            <a href="/chat/<%= chat.idea._id %>" class="block">
-          <% } %>
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+      <div class="px-8 py-6 border-b border-gray-100">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900">Recent Conversations</h3>
+            <p class="text-gray-600">Continue your innovation discussions</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divide-y divide-gray-50">
+        <% chats.forEach((chat, index) => { %>
+          <% const lastMessage = chat.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null; %>
+          <% const isCurrentUser = lastMessage && lastMessage.sender && user && lastMessage.sender._id.toString() === user._id.toString(); %>
           
-          <div class="flex items-start space-x-3">
-            <!-- Avatar/Icon -->
-            <div class="flex-shrink-0">
-              <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-semibold text-lg shadow-md">
-                <%= chat.idea && chat.idea.sector ? chat.idea.sector.charAt(0).toUpperCase() : '?' %>
-              </div>
-            </div>
+          <div class="group hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 transition-all duration-300">
+            <% if (chat.idea && chat.idea._id) { %>
+              <a href="/chat/<%= chat.idea._id %>" class="block p-6">
+            <% } %>
             
-            <!-- Chat Content -->
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between mb-1">
-                <!-- Chat Title -->
-                <h3 class="font-medium text-gray-900 truncate text-base">
-                  <% if (chat.idea && chat.idea.sector && chat.idea.problem) { %>
-                    <%= chat.idea.sector %> - <%= chat.idea.problem %>
-                  <% } else if (chat.idea && chat.idea.sector) { %>
-                    <%= chat.idea.sector %> Discussion
-                  <% } else { %>
-                    Idea Discussion
-                  <% } %>
-                </h3>
-                
-                <!-- Timestamp -->
-                <div class="flex-shrink-0 ml-2">
-                  <% if (lastMessage && lastMessage.timestamp) { %>
-                    <% 
-                      const messageDate = new Date(lastMessage.timestamp);
-                      const now = new Date();
-                      const isToday = messageDate.toDateString() === now.toDateString();
-                      const isYesterday = new Date(now.getTime() - 24*60*60*1000).toDateString() === messageDate.toDateString();
-                    %>
-                    <span class="text-xs text-gray-500">
-                      <% if (isToday) { %>
-                        <%= messageDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) %>
-                      <% } else if (isYesterday) { %>
-                        Yesterday
-                      <% } else { %>
-                        <%= messageDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
-                      <% } %>
-                    </span>
-                  <% } %>
+            <div class="flex items-start space-x-4">
+              <!-- Enhanced Avatar -->
+              <div class="flex-shrink-0 relative">
+                <div class="w-14 h-14 bg-gradient-to-br from-green-400 via-green-500 to-blue-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
+                  <%= chat.idea && chat.idea.sector ? chat.idea.sector.charAt(0).toUpperCase() : '💡' %>
+                </div>
+                <!-- Online status indicator -->
+                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-md">
+                  <div class="w-full h-full bg-green-500 rounded-full animate-pulse"></div>
                 </div>
               </div>
               
-              <!-- Last Message Preview -->
-              <div class="flex items-center justify-between">
-                <div class="flex-1 min-w-0">
-                  <% if (lastMessage) { %>
-                    <div class="flex items-center space-x-1">
-                      <!-- Double check for sent messages -->
-                      <% if (isCurrentUser) { %>
-                        <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
-                          <path d="M12.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-1-1a1 1 0 011.414-1.414L8 15.586l7.293-7.293a1 1 0 011.414 0z"/>
-                        </svg>
-                      <% } %>
-                      
-                      <p class="text-sm text-gray-600 truncate">
-                        <% if (lastMessage.content) { %>
-                          <% if (!isCurrentUser && lastMessage.sender && lastMessage.sender.name) { %>
-                            <span class="font-medium"><%= lastMessage.sender.name.split(' ')[0] %>:</span>
+              <!-- Chat Content -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-2">
+                  <!-- Enhanced Chat Title -->
+                  <h3 class="font-bold text-gray-900 text-lg group-hover:text-green-700 transition-colors duration-300">
+                    <% if (chat.idea && chat.idea.sector && chat.idea.problem) { %>
+                      <span class="inline-flex items-center px-2 py-1 rounded-lg text-sm font-semibold bg-green-100 text-green-800 mr-2">
+                        <%= chat.idea.sector %>
+                      </span>
+                      <%= chat.idea.problem %>
+                    <% } else if (chat.idea && chat.idea.sector) { %>
+                      <%= chat.idea.sector %> Innovation Chat
+                    <% } else { %>
+                      Innovation Discussion
+                    <% } %>
+                  </h3>
+                  
+                  <!-- Enhanced Timestamp -->
+                  <div class="flex-shrink-0 ml-4">
+                    <% if (lastMessage && lastMessage.timestamp) { %>
+                      <% 
+                        const messageDate = new Date(lastMessage.timestamp);
+                        const now = new Date();
+                        const isToday = messageDate.toDateString() === now.toDateString();
+                        const isYesterday = new Date(now.getTime() - 24*60*60*1000).toDateString() === messageDate.toDateString();
+                      %>
+                      <div class="bg-gray-100 px-3 py-1 rounded-full group-hover:bg-white transition-colors duration-300">
+                        <span class="text-xs font-medium text-gray-600">
+                          <% if (isToday) { %>
+                            <%= messageDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) %>
+                          <% } else if (isYesterday) { %>
+                            Yesterday
+                          <% } else { %>
+                            <%= messageDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
                           <% } %>
-                          <%= lastMessage.content.length > 50 ? lastMessage.content.substring(0, 50) + '...' : lastMessage.content %>
-                        <% } else { %>
-                          <span class="italic">No content</span>
-                        <% } %>
-                      </p>
-                    </div>
-                  <% } else { %>
-                    <p class="text-sm text-blue-600 italic">
-                      Tap to start chatting
-                    </p>
-                  <% } %>
+                        </span>
+                      </div>
+                    <% } %>
+                  </div>
                 </div>
                 
-                <!-- Unread indicator / Status -->
-                <div class="flex-shrink-0 ml-2 flex items-center space-x-2">
-                  <!-- Online status indicator -->
-                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <!-- Enhanced Last Message Preview -->
+                <div class="flex items-center justify-between">
+                  <div class="flex-1 min-w-0">
+                    <% if (lastMessage) { %>
+                      <div class="flex items-start space-x-2">
+                        <!-- Message status indicator -->
+                        <% if (isCurrentUser) { %>
+                          <div class="flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                              <path d="M12.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-1-1a1 1 0 011.414-1.414L8 15.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                          </div>
+                        <% } %>
+                        
+                        <div class="flex-1 min-w-0">
+                          <p class="text-gray-700 leading-relaxed group-hover:text-gray-900 transition-colors duration-300">
+                            <% if (lastMessage.content) { %>
+                              <% if (!isCurrentUser && lastMessage.sender && lastMessage.sender.name) { %>
+                                <span class="font-semibold text-blue-600">
+                                  <%= lastMessage.sender.name.split(' ')[0] %>:
+                                </span>
+                              <% } %>
+                              <span class="<%= isCurrentUser ? 'font-medium' : '' %>">
+                                <%= lastMessage.content.length > 80 ? lastMessage.content.substring(0, 80) + '...' : lastMessage.content %>
+                              </span>
+                            <% } else { %>
+                              <span class="italic text-gray-500">No content available</span>
+                            <% } %>
+                          </p>
+                        </div>
+                      </div>
+                    <% } else { %>
+                      <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+                          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                          </svg>
+                        </div>
+                        <p class="text-blue-600 font-medium italic">
+                          Start an innovative conversation
+                        </p>
+                      </div>
+                    <% } %>
+                  </div>
+                  
+                  <!-- Chat indicators -->
+                  <div class="flex-shrink-0 ml-4 flex items-center space-x-2">
+                    <!-- Message count -->
+                    <% if (chat.messages && chat.messages.length > 0) { %>
+                      <div class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">
+                        <%= chat.messages.length %> msgs
+                      </div>
+                    <% } %>
+                    
+                    <!-- Arrow indicator -->
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
+            
+            <% if (chat.idea && chat.idea._id) { %>
+              </a>
+            <% } %>
           </div>
-          
-          <% if (chat.idea && chat.idea._id) { %>
-            </a>
-          <% } %>
-        </div>
-      <% }) %>
+        <% }) %>
+      </div>
     </div>
   <% } else { %>
-    <!-- Empty State -->
-    <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
-      <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
+    <!-- Enhanced Empty State -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-lg border border-gray-100 text-center">
+      <div class="w-32 h-32 bg-gradient-to-br from-green-100 via-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
+        <div class="w-20 h-20 bg-gradient-to-br from-green-200 to-blue-200 rounded-full flex items-center justify-center">
+          <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        </div>
       </div>
-      <h3 class="text-xl font-medium text-gray-900 mb-2">No chats yet</h3>
-      <p class="text-gray-600 mb-6 max-w-sm">
-        Start meaningful conversations with idea contributors and build something amazing together!
+      
+      <h3 class="text-3xl font-bold text-gray-900 mb-4">No conversations yet</h3>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+        Start meaningful conversations with fellow innovators! Discover groundbreaking ideas, collaborate on solutions, and build the future together.
       </p>
-      <a href="/home" class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors duration-200 shadow-md hover:shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        Explore Ideas
-      </a>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="/home" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">
+          <div class="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center mr-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          Explore Ideas
+          <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        
+        <a href="/post" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">
+          <div class="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center mr-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          Share Your Ideas
+          <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Feature highlights -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-2xl border border-green-100">
+          <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">Connect</h4>
+          <p class="text-sm text-gray-600">Meet like-minded innovators from around the world</p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-2xl border border-blue-100">
+          <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">Collaborate</h4>
+          <p class="text-sm text-gray-600">Work together on breakthrough solutions and ideas</p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100">
+          <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">Innovate</h4>
+          <p class="text-sm text-gray-600">Turn ideas into reality with real-time collaboration</p>
+        </div>
+      </div>
     </div>
   <% } %>
 </main>
 
-<!-- WhatsApp-style Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-10">
-  <div class="max-w-4xl mx-auto">
+<!-- Modern Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-200/50 shadow-2xl z-50">
+  <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-5 text-gray-600 text-xs">
-      <a href="/home" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0H5m4 0h10m-4-6v6m0 0h4" />
-        </svg>
-        <span>Home</span>
+      <a href="/home" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Home</span>
       </a>
       
-      <a href="/search" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <span>Search</span>
+      <a href="/search" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Search</span>
       </a>
       
-      <a href="/chats" class="flex flex-col items-center py-3 text-green-600 relative">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-        <span class="font-medium">Chats</span>
-        <div class="absolute top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-600 rounded-full"></div>
+      <a href="/chats" class="flex flex-col items-center py-3 text-green-600 relative group">
+        <div class="p-2 rounded-2xl bg-green-100 mb-1 group-hover:bg-green-200 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        </div>
+        <span class="font-semibold text-green-600">Chats</span>
+        <div class="absolute top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full"></div>
       </a>
       
-      <a href="/post" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span>Post</span>
+      <a href="/post" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Post</span>
       </a>
       
-      <a href="/profile" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 0112 15a7 7 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span>Profile</span>
+      <a href="/profile" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Profile</span>
       </a>
     </div>
   </div>

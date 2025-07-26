@@ -105,6 +105,14 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
   res.render('login');
 });
+app.post('/logout', (req, res, next) => {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/'); // or redirect to '/login' if you have a login page
+  });
+});
 
 app.get('/signup', (req, res) => {
   res.render('signup');
@@ -259,22 +267,50 @@ app.post('/idea/delete/:id', async (req, res) => {
     res.status(500).send('Failed to delete idea');
   }
 });
-app.get('/edit-problem/:id', async (req, res) => {
-  const problem = await Problem.findById(req.params.id);
-  res.render('editproblem', { problem });
+app.get('/problem/edit/:id', async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+    if (!problem) {
+      return res.status(404).send('Problem not found');
+    }
+    res.render('editProblem', { problem });
+  } catch (err) {
+    console.error('Error loading problem for edit:', err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.post('/edit-problem/:id', async (req, res) => {
-  const { sector, problem, description } = req.body;
-  await Problem.findByIdAndUpdate(req.params.id, {
-    sector,
-    problem,
-    description
-  });
-  res.redirect('/profile');
+  try {
+    const { sector, problem: problemTitle, description } = req.body;
+    await Problem.findByIdAndUpdate(req.params.id, {
+      sector,
+      problem: problemTitle,
+      description
+    });
+    res.redirect('/home'); // or wherever you list problems
+  } catch (err) {
+    console.error('Error updating problem:', err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 
+app.get('/idea/edit/:id', async (req, res) => {
+  const ideaId = req.params.id;
+
+  try {
+    const idea = await Idea.findById(ideaId); // assuming you're using Mongoose
+    if (!idea) {
+      return res.status(404).send('Idea not found');
+    }
+
+    res.render('editIdea', { idea }); // assumes you're using EJS or some template engine
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
 // Add this in your server.js or in your routes file
 app.get('/idea/:id', async (req, res) => {
   try {
@@ -295,10 +331,26 @@ app.get('/idea/:id', async (req, res) => {
   }
 });
 
-// Add this route to your server.js file
+app.post('/edit-idea/:id', async (req, res) => {
+  try {
+    const ideaId = req.params.id;
+    const { sector, problem, description } = req.body;
 
-// All Chats Page
-// Improved /chats route
+    // Update the idea in your MongoDB collection
+    await Idea.findByIdAndUpdate(ideaId, {
+      sector,
+      problem,
+      description,
+    });
+
+    // Redirect or send a success response
+    res.redirect('/home'); // or wherever you show the updated ideas
+  } catch (err) {
+    console.error('Error updating idea:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/chats', ensureAuthenticated, async (req, res) => {
   try {
     const chats = await Chat.find({

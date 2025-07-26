@@ -3,181 +3,244 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chat</title>
+  <title>Chat - InnoHub</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gradient-to-br from-gray-50 to-green-50 min-h-screen">
 
-  <!-- Chat Header -->
-  <div class="bg-green-600 text-white p-4 shadow-md sticky top-0 z-10">
-    <div class="max-w-2xl mx-auto flex items-center">
-      <a href="/home" class="mr-4 hover:bg-green-700 p-2 rounded-full transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      </a>
-      <div class="flex items-center">
-        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <div>
-          <h2 class="font-semibold text-lg">Idea Discussion</h2>
-          <p class="text-green-100 text-sm opacity-90">Active now</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Chat Container -->
-  <div class="max-w-2xl mx-auto bg-stone-100 min-h-screen flex flex-col">
-    
-    <!-- Messages Area -->
-    <div class="flex-1 p-4 pb-6 overflow-y-auto space-y-3" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22><g fill=%22none%22 fill-rule=%22evenodd%22><g fill=%22%23f0f0f0%22 fill-opacity=%220.05%22><circle cx=%2230%22 cy=%2230%22 r=%221%22/></g></g></svg>');">
-      
-      <% chat.messages.forEach(msg => { %>
-        <% const isCurrentUser = msg.sender._id.toString() === currentUser._id.toString(); %>
-        
-        <div class="flex <%= isCurrentUser ? 'justify-end' : 'justify-start' %>">
-          <div class="max-w-xs lg:max-w-md">
-            <!-- Message Bubble -->
-            <div class="<%= isCurrentUser ? 'bg-green-500 text-white' : 'bg-white text-gray-800' %> rounded-2xl px-4 py-2 shadow-sm relative">
-              
-              <!-- Bubble Tail -->
-              <div class="absolute top-0 <%= isCurrentUser ? '-right-2 border-l-green-500' : '-left-2 border-r-white' %> w-0 h-0 border-t-8 border-b-8 border-t-transparent border-b-transparent <%= isCurrentUser ? 'border-l-8' : 'border-r-8' %>"></div>
-              
-              <!-- Sender Name (only for others) -->
-              <% if (!isCurrentUser) { %>
-                <div class="text-green-600 text-xs font-semibold mb-1">
-                  <%= msg.sender.name || "Other User" %>
-                </div>
-              <% } %>
-              
-              <!-- Message Content -->
-              <div class="text-sm leading-relaxed break-words">
-                <%= msg.content %>
+  <!-- Modern Chat Header with Glass Effect -->
+  <header class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <!-- Back Button -->
+          <a href="/chats" class="group flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105">
+            <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </a>
+          
+          <!-- Chat Info -->
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <div class="w-14 h-14 bg-gradient-to-br from-green-500 via-green-600 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <span class="text-white font-bold text-xl">💡</span>
               </div>
-              
-              <!-- Timestamp -->
-              <div class="flex items-center justify-end mt-1 space-x-1">
-                <span class="text-xs <%= isCurrentUser ? 'text-green-100' : 'text-gray-500' %> opacity-75">
-                  <%= new Date(msg.timestamp).toLocaleTimeString('en-US', { 
-                    hour: 'numeric', 
-                    minute: '2-digit', 
-                    hour12: true 
-                  }) %>
-                </span>
-                <!-- Double check marks for sent messages -->
-                <% if (isCurrentUser) { %>
-                  <svg class="w-4 h-4 text-green-100 opacity-75" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
-                    <path d="M12.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-1-1a1 1 0 011.414-1.414L8 15.586l7.293-7.293a1 1 0 011.414 0z"/>
-                  </svg>
-                <% } %>
+              <!-- Online status indicator -->
+              <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-md">
+                <div class="w-full h-full bg-green-500 rounded-full animate-pulse"></div>
               </div>
             </div>
             
-            <!-- Date separator (show if message is from different day) -->
-            <% 
-              const currentMsgDate = new Date(msg.timestamp).toDateString();
-              const isNewDay = chat.messages.indexOf(msg) === 0 || 
-                               new Date(chat.messages[chat.messages.indexOf(msg) - 1].timestamp).toDateString() !== currentMsgDate;
-            %>
-            <% if (isNewDay) { %>
-              <div class="flex justify-center my-4">
-                <div class="bg-white bg-opacity-80 text-gray-600 text-xs px-3 py-1 rounded-full shadow-sm">
-                  <%= new Date(msg.timestamp).toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  }) %>
+            <div>
+              <h1 class="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                Innovation Discussion
+              </h1>
+              <div class="flex items-center space-x-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <p class="text-sm text-gray-600 font-medium">Active now</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chat Actions -->
+        <div class="flex items-center space-x-2">
+          <button class="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105 group">
+            <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+          <button class="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105 group">
+            <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Chat Container -->
+  <main class="max-w-4xl mx-auto bg-transparent min-h-screen flex flex-col pb-24">
+    
+    <!-- Messages Area -->
+    <div class="flex-1 p-6 overflow-y-auto space-y-6" style="background-image: radial-gradient(circle at 25px 25px, rgba(255,255,255,0.15) 2%, transparent 2%), radial-gradient(circle at 75px 75px, rgba(255,255,255,0.1) 2%, transparent 2%); background-size: 100px 100px;">
+      
+      <% chat.messages.forEach((msg, index) => { %>
+        <% const isCurrentUser = msg.sender._id.toString() === currentUser._id.toString(); %>
+        <% 
+          const currentMsgDate = new Date(msg.timestamp).toDateString();
+          const isNewDay = index === 0 || 
+                           new Date(chat.messages[index - 1].timestamp).toDateString() !== currentMsgDate;
+        %>
+        
+        <!-- Date Separator -->
+        <% if (isNewDay) { %>
+          <div class="flex justify-center my-8">
+            <div class="bg-white/80 backdrop-blur-sm text-gray-600 text-sm px-6 py-2 rounded-full shadow-lg border border-gray-100">
+              <%= new Date(msg.timestamp).toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              }) %>
+            </div>
+          </div>
+        <% } %>
+        
+        <div class="flex <%= isCurrentUser ? 'justify-end' : 'justify-start' %> group">
+          <div class="max-w-xs lg:max-w-md">
+            
+            <!-- Message Bubble -->
+            <div class="relative">
+              <div class="<%= isCurrentUser ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg' : 'bg-white/90 backdrop-blur-sm text-gray-800 shadow-lg border border-gray-100' %> rounded-3xl px-6 py-4 transition-all duration-300 group-hover:shadow-xl">
+                
+                <!-- Sender Name (only for others) -->
+                <% if (!isCurrentUser) { %>
+                  <div class="flex items-center space-x-2 mb-2">
+                    <div class="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                      <span class="text-white text-xs font-bold">
+                        <%= (msg.sender.name || "U").charAt(0).toUpperCase() %>
+                      </span>
+                    </div>
+                    <span class="text-blue-600 text-sm font-semibold">
+                      <%= msg.sender.name || "Other User" %>
+                    </span>
+                  </div>
+                <% } %>
+                
+                <!-- Message Content -->
+                <div class="text-sm leading-relaxed break-words <%= isCurrentUser ? 'text-white' : 'text-gray-800' %>">
+                  <%= msg.content %>
+                </div>
+                
+                <!-- Timestamp and Status -->
+                <div class="flex items-center justify-end mt-3 space-x-2">
+                  <span class="text-xs <%= isCurrentUser ? 'text-green-100' : 'text-gray-500' %> font-medium">
+                    <%= new Date(msg.timestamp).toLocaleTimeString('en-US', { 
+                      hour: 'numeric', 
+                      minute: '2-digit', 
+                      hour12: true 
+                    }) %>
+                  </span>
+                  
+                  <!-- Status indicators for sent messages -->
+                  <% if (isCurrentUser) { %>
+                    <div class="flex items-center space-x-1">
+                      <svg class="w-4 h-4 text-green-100" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                        <path d="M12.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-1-1a1 1 0 011.414-1.414L8 15.586l7.293-7.293a1 1 0 011.414 0z"/>
+                      </svg>
+                    </div>
+                  <% } %>
                 </div>
               </div>
-            <% } %>
+              
+              <!-- Message Tail -->
+              <div class="absolute top-4 <%= isCurrentUser ? '-right-2' : '-left-2' %>">
+                <div class="w-0 h-0 <%= isCurrentUser ? 'border-l-8 border-l-green-500' : 'border-r-8 border-r-white/90' %> border-t-8 border-b-8 border-t-transparent border-b-transparent"></div>
+              </div>
+            </div>
           </div>
         </div>
       <% }) %>
+      
+      <!-- Typing Indicator (optional) -->
+      <div class="flex justify-start opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div class="bg-white/90 backdrop-blur-sm rounded-3xl px-6 py-4 shadow-lg border border-gray-100">
+          <div class="flex items-center space-x-2">
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            </div>
+            <span class="text-xs text-gray-500">Someone is typing...</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </main>
 
-    <!-- Message Input Area -->
-    <div class="bg-gray-50 p-4 border-t border-gray-200">
-      <form action="/chat/<%= chat._id %>/message" method="POST" class="flex items-center space-x-3">
+  <!-- Modern Message Input Area -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200/50 shadow-2xl z-50">
+    <div class="max-w-4xl mx-auto p-6">
+      <form action="/chat/<%= chat._id %>/message" method="POST" class="flex items-center space-x-4">
         
-        <!-- Emoji Button -->
-        <button type="button" class="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-        
-        <!-- Message Input -->
-        <div class="flex-1 relative">
-          <input
-            name="content"
-            type="text"
-            placeholder="Type a message..."
-            class="w-full bg-white border border-gray-300 rounded-full px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
-            required
-          />
-          <!-- Attachment Button -->
-          <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Action Buttons -->
+        <div class="flex items-center space-x-2">
+          <button type="button" class="group flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105">
+            <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          
+          <button type="button" class="group flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105">
+            <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
             </svg>
           </button>
         </div>
         
+        <!-- Message Input Container -->
+        <div class="flex-1 relative">
+          <div class="relative bg-white rounded-3xl shadow-lg border border-gray-200 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-transparent transition-all duration-300">
+            <input
+              name="content"
+              type="text"
+              placeholder="Type your innovative message..."
+              class="w-full bg-transparent rounded-3xl px-6 py-4 pr-16 focus:outline-none text-gray-800 placeholder-gray-400"
+              required
+            />
+            
+            <!-- Voice Message Button -->
+            <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300 hover:scale-105 group">
+              <svg class="w-4 h-4 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
         <!-- Send Button -->
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full transition-colors duration-200 shadow-md hover:shadow-lg">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button type="submit" class="group flex items-center justify-center w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+          <svg class="w-6 h-6 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
         </button>
       </form>
+      
+      <!-- Quick Actions -->
+      <div class="flex items-center justify-center mt-4 space-x-6">
+        <button class="flex items-center space-x-2 text-gray-500 hover:text-green-600 transition-colors duration-300 group">
+          <div class="w-8 h-8 bg-gray-100 group-hover:bg-green-100 rounded-full flex items-center justify-center transition-colors duration-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">React</span>
+        </button>
+        
+        <button class="flex items-center space-x-2 text-gray-500 hover:text-blue-600 transition-colors duration-300 group">
+          <div class="w-8 h-8 bg-gray-100 group-hover:bg-blue-100 rounded-full flex items-center justify-center transition-colors duration-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">Share</span>
+        </button>
+        
+        <button class="flex items-center space-x-2 text-gray-500 hover:text-purple-600 transition-colors duration-300 group">
+          <div class="w-8 h-8 bg-gray-100 group-hover:bg-purple-100 rounded-full flex items-center justify-center transition-colors duration-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">Save</span>
+        </button>
+      </div>
     </div>
   </div>
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-10">
-  <div class="max-w-4xl mx-auto">
-    <div class="grid grid-cols-5 text-gray-600 text-xs">
-      <a href="/home" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0H5m4 0h10m-4-6v6m0 0h4" />
-        </svg>
-        <span>Home</span>
-      </a>
-      
-      <a href="/search" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <span>Search</span>
-      </a>
-      
-      <a href="/chats" class="flex flex-col items-center py-3 text-green-600 relative">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-        <span class="font-medium">Chats</span>
-        <div class="absolute top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-600 rounded-full"></div>
-      </a>
-      
-      <a href="/post" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <span>Post</span>
-      </a>
-      
-      <a href="/profile" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 active:bg-gray-50">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7 7 0 0112 15a7 7 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span>Profile</span>
-      </a>
-    </div>
-  </div>
-</nav>
+
 </body>
 </html>

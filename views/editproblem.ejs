@@ -1,37 +1,290 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Edit Problem</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Problem - InnoHub</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
-    <h2 class="text-xl font-bold mb-4">Edit Your Problem</h2>
-    <form action="/edit-problem/<%= problem._id %>" method="POST" class="space-y-4">
-      <input 
-        type="text" 
-        name="sector" 
-        value="<%= problem.sector %>" 
-        class="w-full border px-3 py-2 rounded" 
-        required 
-      />
-      <input 
-        type="text" 
-        name="problem" 
-        value="<%= problem.problem %>" 
-        class="w-full border px-3 py-2 rounded" 
-        required 
-      />
-      <textarea 
-        name="description" 
-        rows="4" 
-        class="w-full border px-3 py-2 rounded"
-      ><%= problem.description %></textarea>
+<body class="bg-gradient-to-br from-gray-50 to-red-50 text-gray-900 min-h-screen">
 
-      <div class="flex justify-end">
-        <button class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+<!-- Modern Header with Glass Effect -->
+<header class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <!-- Back Button -->
+        <a href="/home" class="group flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105">
+          <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </a>
+        
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+            <span class="text-white font-bold text-lg">🔧</span>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
+              Edit Your Problem
+            </h1>
+            <p class="text-sm text-gray-600">🎯 Refine your problem statement</p>
+          </div>
+        </div>
       </div>
-    </form>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-3">
+        <button class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 group">
+          <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+          </svg>
+          <span class="font-medium">Preview</span>
+        </button>
+      </div>
+    </div>
   </div>
+</header>
+
+<!-- Main Content -->
+<main class="max-w-4xl mx-auto px-6 py-8 pb-24">
+  <!-- Form Container -->
+  <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100 overflow-hidden relative">
+    <!-- Decorative Background Elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-red-200 to-orange-200 rounded-full opacity-10 transform translate-x-32 -translate-y-32"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-yellow-200 to-red-200 rounded-full opacity-10 transform -translate-x-24 translate-y-24"></div>
+    
+    <!-- Header Section -->
+    <div class="relative px-8 py-8 border-b border-gray-100 bg-gradient-to-r from-red-50 to-orange-50">
+      <div class="flex items-center space-x-4 mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">Refine Your Problem</h2>
+          <p class="text-gray-600 text-lg">Update your problem statement to make it clearer and more impactful</p>
+        </div>
+      </div>
+      
+      <!-- Progress Indicator -->
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+          <span class="text-sm font-medium text-red-600">Editing Mode Active</span>
+        </div>
+        <div class="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Form Content -->
+    <div class="relative px-8 py-8">
+      <form action="/edit-problem/<%= problem._id %>" method="POST" class="space-y-8">
+        
+        <!-- Sector Field -->
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <div>
+              <label class="text-lg font-bold text-gray-900">Problem Sector</label>
+              <p class="text-sm text-gray-600">Choose the primary industry or field where this problem exists</p>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <input 
+              type="text" 
+              name="sector" 
+              value="<%= problem.sector %>" 
+              placeholder="e.g., Healthcare, Education, Environment..."
+              class="w-full bg-white border-2 border-gray-200 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl"
+              required 
+            />
+            <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problem Field -->
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <label class="text-lg font-bold text-gray-900">Problem Title</label>
+              <p class="text-sm text-gray-600">What is the main problem you've identified?</p>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <input 
+              type="text" 
+              name="problem" 
+              value="<%= problem.problem %>" 
+              placeholder="e.g., Limited access to clean water in rural areas..."
+              class="w-full bg-white border-2 border-gray-200 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl"
+              required 
+            />
+            <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <label class="text-lg font-bold text-gray-900">Detailed Description</label>
+              <p class="text-sm text-gray-600">Provide a comprehensive explanation of the problem</p>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <textarea 
+              name="description" 
+              rows="6" 
+              placeholder="Describe the problem in detail. Who does it affect? Why is it important to solve? What are the current challenges?"
+              class="w-full bg-white border-2 border-gray-200 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl resize-none"
+              required><%= problem.description %></textarea>
+            <div class="absolute right-4 top-4">
+              <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6">
+          <button 
+            type="submit"
+            class="group flex-1 inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-2xl hover:from-red-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold text-lg">
+            <div class="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center mr-3">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            Update Problem
+            <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          
+          <a 
+            href="/home"
+            class="group flex-1 inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-200 font-semibold text-lg">
+            <div class="w-8 h-8 bg-gray-100 rounded-xl flex items-center justify-center mr-3 group-hover:bg-gray-200 transition-colors duration-300">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </div>
+            Cancel Changes
+          </a>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Tips Section -->
+    <div class="relative px-8 py-8 bg-gradient-to-r from-yellow-50 to-orange-50 border-t border-gray-100">
+      <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-gray-900 mb-3">🎯 Tips for a Well-Defined Problem</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+            <div class="flex items-start space-x-2">
+              <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Be specific about who is affected by the problem</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Explain why this problem matters</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Describe the current situation and challenges</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <div class="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Use clear, understandable language</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modern Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-200/50 shadow-2xl z-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-5 text-gray-600 text-xs">
+      <a href="/home" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Home</span>
+      </a>
+      
+      <a href="/search" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Search</span>
+      </a>
+      
+      <a href="/chats" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Chats</span>
+      </a>
+      
+      <a href="/post" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Post</span>
+      </a>
+      
+      <a href="/profile" class="flex flex-col items-center py-3 text-red-600 relative group">
+        <div class="p-2 rounded-2xl bg-red-100 mb-1 group-hover:bg-red-200 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </div>
+        <span class="font-semibold text-red-600">Profile</span>
+        <div class="absolute top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-600 rounded-full"></div>
+      </a>
+    </div>
+  </div>
+</nav>
+
 </body>
 </html>

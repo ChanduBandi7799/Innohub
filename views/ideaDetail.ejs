@@ -3,32 +3,330 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Idea Details</title>
+  <title>Idea Details - InnoHub</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen">
+<body class="bg-gradient-to-br from-gray-50 to-green-50 text-gray-900 min-h-screen">
 
-  <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-    <!-- Sector title -->
-    <h1 class="text-2xl font-bold text-blue-700 mb-2"><%= idea.sector %></h1>
+<!-- Modern Header with Glass Effect -->
+<header class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <!-- Back Button -->
+        <a href="/home" class="group flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-all duration-300 hover:scale-105">
+          <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </a>
+        
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+            <span class="text-white font-bold text-lg">💡</span>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              Innovation Details
+            </h1>
+            <p class="text-sm text-gray-600">🚀 Explore groundbreaking ideas</p>
+          </div>
+        </div>
+      </div>
 
-    <!-- Idea description -->
-    <p class="text-gray-800 mb-4"><%= idea.description %></p>
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-3">
+        <button class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 group">
+          <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+          </svg>
+          <span class="font-medium">Share</span>
+        </button>
+        
+        <button class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 group">
+          <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+          </svg>
+          <span class="font-medium">Save</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- Contributor info -->
-   <p class="text-sm text-gray-500 mb-4">
-  Posted by: <%= idea.contributorId.name %> on <%= new Date(idea.datePosted).toDateString() %>
-</p>
-
-    <!-- Conditional Chat Button -->
+<!-- Main Content -->
+<main class="max-w-4xl mx-auto px-6 py-8 pb-24">
+  <!-- Idea Card -->
+  <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100 overflow-hidden relative">
+    <!-- Decorative Background Elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-green-200 to-blue-200 rounded-full opacity-10 transform translate-x-32 -translate-y-32"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-200 to-pink-200 rounded-full opacity-10 transform -translate-x-24 translate-y-24"></div>
+    
+    <!-- Header Section -->
+    <div class="relative px-8 py-8 border-b border-gray-100">
+      <div class="flex items-start justify-between mb-6">
+        <!-- Sector Badge -->
+        <div class="inline-flex items-center px-4 py-2 rounded-2xl text-lg font-bold bg-gradient-to-r from-green-100 via-blue-100 to-purple-100 text-transparent bg-clip-text border-2 border-gradient-to-r from-green-200 to-blue-200 shadow-lg">
+          <div class="w-3 h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full mr-3 animate-pulse"></div>
+          <span class="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent font-bold">
+            <%= idea.sector %>
+          </span>
+        </div>
+        
+        <!-- Date Posted -->
+        <div class="bg-gray-100 px-4 py-2 rounded-2xl border border-gray-200">
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span class="text-sm font-medium text-gray-600">
+              <%= new Date(idea.datePosted).toLocaleDateString('en-US', { 
+                weekday: 'long',
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              }) %>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Problem Statement -->
+      <% if (idea.problem) { %>
+        <h2 class="text-3xl font-bold text-gray-900 mb-4 leading-tight">
+          <%= idea.problem %>
+        </h2>
+      <% } %>
+    </div>
+    
+    <!-- Content Section -->
+    <div class="relative px-8 py-8">
+      <!-- Description -->
+      <div class="mb-8">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900">Innovation Description</h3>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 border border-gray-100">
+          <p class="text-gray-800 leading-relaxed text-lg">
+            <%= idea.description %>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Contributor Section -->
+      <div class="mb-8">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900">Innovation Pioneer</h3>
+        </div>
+        
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-lg">
+          <div class="flex items-center space-x-4">
+            <!-- Avatar -->
+            <div class="w-16 h-16 bg-gradient-to-br from-green-400 via-green-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <span class="text-white font-bold text-xl">
+                <%= idea.contributorId.name.charAt(0).toUpperCase() %>
+              </span>
+            </div>
+            
+            <!-- Contributor Info -->
+            <div class="flex-1">
+              <h4 class="text-lg font-bold text-gray-900 mb-1">
+                <%= idea.contributorId.name %>
+              </h4>
+              <div class="flex items-center space-x-4 text-sm text-gray-600">
+                <div class="flex items-center space-x-1">
+                  <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span>Innovation Contributor</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>Member since <%= new Date(idea.datePosted).getFullYear() %></span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Badges -->
+            <div class="flex flex-col space-y-2">
+              <div class="bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                ✨ Innovator
+              </div>
+              <div class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                🚀 Pioneer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action Section -->
     <% if (currentUser && currentUser._id.toString() !== idea.contributorId._id.toString()) { %>
-
-      <a href="/chat/<%= idea._id %>" 
-         class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-        Chat with Publisher
-      </a>
+      <div class="relative px-8 py-8 bg-gradient-to-r from-green-50 to-blue-50 border-t border-gray-100">
+        <div class="text-center">
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Ready to Collaborate?</h3>
+          <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Connect with the innovator behind this groundbreaking idea. Start a meaningful conversation and explore potential collaborations.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="/chat/<%= idea._id %>" 
+               class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">
+              <div class="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center mr-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+              </div>
+              Start Conversation
+              <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+            
+            <button class="group inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-200 font-semibold">
+              <div class="w-8 h-8 bg-gray-100 rounded-xl flex items-center justify-center mr-3 group-hover:bg-gray-200 transition-colors duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              </div>
+              Save Idea
+            </button>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- Owner View -->
+      <div class="relative px-8 py-8 bg-gradient-to-r from-purple-50 to-pink-50 border-t border-gray-100">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Your Innovation</h3>
+          <p class="text-gray-600 mb-6">
+            This is your published idea. Others can connect with you to discuss collaboration opportunities.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="/chats" 
+               class="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+              View Conversations
+            </a>
+            
+            <button class="group inline-flex items-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-2xl transition-all duration-300 shadow-lg border border-gray-200 font-semibold">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Edit Idea
+            </button>
+          </div>
+        </div>
+      </div>
     <% } %>
   </div>
+  
+  <!-- Related Ideas Section -->
+  <div class="mt-12">
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-gray-100">
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900">Explore More Innovations</h3>
+          <p class="text-gray-600">Discover other groundbreaking ideas in the same sector</p>
+        </div>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/home" 
+           class="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">
+          <svg class="w-5 h-5 mr-2 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          Browse All Ideas
+        </a>
+        
+        <a href="/post" 
+           class="group inline-flex items-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-2xl transition-all duration-300 shadow-lg border border-gray-200 font-semibold">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Share Your Idea
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modern Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-200/50 shadow-2xl z-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-5 text-gray-600 text-xs">
+      <a href="/home" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Home</span>
+      </a>
+      
+      <a href="/search" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Search</span>
+      </a>
+      
+      <a href="/chats" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Chats</span>
+      </a>
+      
+      <a href="/post" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Post</span>
+      </a>
+      
+      <a href="/profile" class="flex flex-col items-center py-3 hover:text-green-600 transition-colors duration-200 group">
+        <div class="p-2 rounded-2xl group-hover:bg-green-100 transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </div>
+        <span class="group-hover:font-medium">Profile</span>
+      </a>
+    </div>
+  </div>
+</nav>
 
 </body>
 </html>
