@@ -181,7 +181,7 @@ app.post('/post-problem', ensureAuthenticated, async (req, res) => {
     });
 
     await problem.save();
-    res.redirect('/home'); // or you can redirect to /problems if you build that view
+    res.redirect('/problems'); // or you can redirect to /problems if you build that view
   } catch (err) {
     console.error('Error saving problem:', err);
     res.status(500).send('Internal server error while posting problem.');

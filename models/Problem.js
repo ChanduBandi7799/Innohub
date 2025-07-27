@@ -1,10 +1,20 @@
 const mongoose = require('mongoose');
 
 const problemSchema = new mongoose.Schema({
+  title: String,
   sector: String,
-  problem: String,
   description: String,
-  datePosted: { type: Date, default: Date.now },
+  contributorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  datePosted: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model('Problem', problemSchema);
+// ✅ Prevent OverwriteModelError and ensure proper export
+const Problem = mongoose.models.Problem || mongoose.model('Problem', problemSchema);
+
+module.exports = Problem;
