@@ -9,7 +9,6 @@
 <body class="bg-gradient-to-br from-gray-50 to-green-50 min-h-screen">
 
   <!-- Modern Chat Header with Glass Effect -->
-  <!-- Modern Chat Header with Glass Effect -->
 <header class="bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg sticky top-0 z-50">
   <div class="max-w-4xl mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
@@ -24,12 +23,27 @@
         <!-- Chat Info -->
         <div class="flex items-center space-x-3">
           <div class="relative">
-            <!-- Dynamic User Avatar -->
+            <!-- Dynamic User Avatar - Show the other participant -->
             <% 
-              // Get the other participant (not current user)
-              const otherParticipant = chat.participants.find(p => p._id.toString() !== currentUser._id.toString());
-              const displayUser = otherParticipant || currentUser;
-              const userInitial = (displayUser.name || "U").charAt(0).toUpperCase();
+              // Determine who to display in the chat header - prioritize other participant
+              let displayUser = null;
+              let userInitial = "U";
+              
+              // First, try to get the other participant (not current user)
+              if (chat && chat.participants && chat.participants.length > 1) {
+                displayUser = chat.participants.find(p => p._id.toString() !== currentUser._id.toString());
+                userInitial = displayUser && displayUser.name ? displayUser.name.charAt(0).toUpperCase() : "U";
+              }
+              // If no other participant found but chat has an idea with a contributor, show the contributor
+              else if (chat && chat.idea && chat.idea.contributor) {
+                displayUser = chat.idea.contributor;
+                userInitial = displayUser.name ? displayUser.name.charAt(0).toUpperCase() : "C";
+              } 
+              // Fallback to current user
+              else {
+                displayUser = currentUser;
+                userInitial = displayUser && displayUser.name ? displayUser.name.charAt(0).toUpperCase() : "U";
+              }
             %>
             <div class="w-14 h-14 bg-gradient-to-br from-green-500 via-green-600 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
               <span class="text-white font-bold text-xl"><%= userInitial %></span>
@@ -41,13 +55,33 @@
           </div>
           
           <div>
-            <!-- Display the other user's name -->
+            <!-- Display the other participant's name -->
             <h1 class="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              <%= displayUser.name || "User" %>
+              <% if (displayUser && displayUser.name && displayUser._id.toString() !== currentUser._id.toString()) { %>
+                <%= displayUser.name %>
+                <% if (chat && chat.idea && chat.idea.sector) { %>
+                  <span class="text-sm text-gray-500 font-normal">• <%= chat.idea.sector %></span>
+                <% } %>
+              <% } else if (chat && chat.idea && chat.idea.contributor && chat.idea.contributor.name) { %>
+                <%= chat.idea.contributor.name %>
+                <% if (chat.idea.sector) { %>
+                  <span class="text-sm text-gray-500 font-normal">• <%= chat.idea.sector %></span>
+                <% } %>
+              <% } else { %>
+                Innovation Chat
+              <% } %>
             </h1>
             <div class="flex items-center space-x-2">
               <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <p class="text-sm text-gray-600 font-medium">Active now</p>
+              <p class="text-sm text-gray-600 font-medium">
+                <% if (displayUser && displayUser._id.toString() !== currentUser._id.toString()) { %>
+                  Active now
+                <% } else if (chat && chat.idea && chat.idea.contributor) { %>
+                  Problem Contributor
+                <% } else { %>
+                  Active now
+                <% } %>
+              </p>
             </div>
           </div>
         </div>

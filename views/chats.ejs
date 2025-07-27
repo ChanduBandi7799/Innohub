@@ -98,7 +98,16 @@
               <!-- Enhanced Avatar -->
               <div class="flex-shrink-0 relative">
                 <div class="w-14 h-14 bg-gradient-to-br from-green-400 via-green-500 to-blue-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-                  <%= chat.idea && chat.idea.sector ? chat.idea.sector.charAt(0).toUpperCase() : '💡' %>
+                  <%
+                    // Get contributor name or show sector initial
+                    let displayInitial = '💡';
+                    if (chat.idea && chat.idea.contributor && chat.idea.contributor.name) {
+                      displayInitial = chat.idea.contributor.name.charAt(0).toUpperCase();
+                    } else if (chat.idea && chat.idea.sector) {
+                      displayInitial = chat.idea.sector.charAt(0).toUpperCase();
+                    }
+                  %>
+                  <%= displayInitial %>
                 </div>
                 <!-- Online status indicator -->
                 <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-md">
@@ -109,13 +118,16 @@
               <!-- Chat Content -->
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-2">
-                  <!-- Enhanced Chat Title -->
+                  <!-- Enhanced Chat Title - Show Contributor Name -->
                   <h3 class="font-bold text-gray-900 text-lg group-hover:text-green-700 transition-colors duration-300">
-                    <% if (chat.idea && chat.idea.sector && chat.idea.problem) { %>
-                      <span class="inline-flex items-center px-2 py-1 rounded-lg text-sm font-semibold bg-green-100 text-green-800 mr-2">
-                        <%= chat.idea.sector %>
-                      </span>
-                      <%= chat.idea.problem %>
+                    <% if (chat.idea && chat.idea.contributor && chat.idea.contributor.name) { %>
+                      <!-- Show contributor name with sector badge -->
+                      <% if (chat.idea.sector) { %>
+                        <span class="inline-flex items-center px-2 py-1 rounded-lg text-sm font-semibold bg-green-100 text-green-800 mr-2">
+                          <%= chat.idea.sector %>
+                        </span>
+                      <% } %>
+                      Chat with <%= chat.idea.contributor.name %>
                     <% } else if (chat.idea && chat.idea.sector) { %>
                       <%= chat.idea.sector %> Innovation Chat
                     <% } else { %>
@@ -187,7 +199,11 @@
                           </svg>
                         </div>
                         <p class="text-blue-600 font-medium italic">
-                          Start an innovative conversation
+                          <% if (chat.idea && chat.idea.contributor && chat.idea.contributor.name) { %>
+                            Start chatting with <%= chat.idea.contributor.name %>
+                          <% } else { %>
+                            Start an innovative conversation
+                          <% } %>
                         </p>
                       </div>
                     <% } %>
